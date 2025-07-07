@@ -140,3 +140,86 @@ button:hover {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+
+
+/* --- 新增和修改的样式 --- */
+.button-group {
+    display: flex;
+    gap: 10px; /* 按钮之间的间距 */
+    margin-top: 10px;
+}
+
+.action-btn {
+    flex-grow: 1;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.2s;
+}
+
+.action-btn.include {
+    background-color: #4CAF50; /* 绿色 */
+}
+.action-btn.include:hover {
+    background-color: #45a049;
+}
+
+.action-btn.exclude {
+    background-color: #f44336; /* 红色 */
+}
+.action-btn.exclude:hover {
+    background-color: #da190b;
+}
+
+#command-list {
+    list-style: none;
+    padding: 0;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+#command-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background-color: #3b4048;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    border-left: 4px solid; /* 为指令类型添加颜色条 */
+}
+
+.command-path {
+    margin-left: 8px;
+    word-break: break-all;
+    flex-grow: 1;
+}
+
+.command-type-include {
+    border-color: #98c379; /* 淡绿色 */
+}
+
+.command-type-exclude {
+    border-color: #e06c75; /* 淡红色 */
+}
+
+.remove-btn { /* 重命名 .remove-folder-btn */
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+.remove-btn:hover {
+    background: #5a6268;
+}

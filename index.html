@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
-    <title>随机媒体查看器</title>
+    <title>再次到达的星空～新生之芽与抉择之歌，以希望之躯</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,9 +11,12 @@
         <aside class="sidebar">
             <h2>设置</h2>
             <div class="section">
-                <h3>源文件夹</h3>
-                <ul id="folder-list"></ul>
-                <button id="add-folder-btn">添加文件夹</button>
+                <h3>规则列表 (按顺序执行)</h3>
+                <ul id="command-list"></ul>
+                <div class="button-group">
+                    <button id="add-include-btn" class="action-btn include">添加包含文件夹</button>
+                    <button id="add-exclude-btn" class="action-btn exclude">添加排除文件夹</button>
+                </div>
             </div>
             
             <div class="section">
@@ -27,13 +30,13 @@
 
             <div class="section">
                 <button id="next-btn" class="main-action">下一张 / 下一个</button>
-                <p id="file-count">文件总数: 0</p>
+                <p id="file-count">最终文件数: 0</p>
             </div>
         </aside>
 
         <main class="viewer">
             <div id="display-area">
-                <p id="info-text">请先添加文件夹，然后点击“下一张”</p>
+                <p id="info-text">请先添加规则，然后点击“下一张”</p>
                 <img id="image-viewer" class="media-element" style="display:none;" />
                 <video id="video-viewer" class="media-element" style="display:none;" controls></video>
                 <p id="file-path"></p>
