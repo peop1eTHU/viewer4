@@ -38,7 +38,7 @@
 1.  **克隆或下载项目**
     将本项目下载或使用 Git 克隆到您的本地机器上。
     ```bash
-    git clone <your-repository-url>
+    git clone https://github.com/peop1eTHU/viewer4.git
     ```
 
 2.  **进入项目目录**
