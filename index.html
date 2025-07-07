@@ -9,34 +9,42 @@
 <body>
     <div class="container">
         <aside class="sidebar">
-            <h2>设置</h2>
-            <div class="section">
-                <h3>规则列表 (按顺序执行)</h3>
-                <ul id="command-list"></ul>
-                <div class="button-group">
-                    <button id="add-include-btn" class="action-btn include">添加包含文件夹</button>
-                    <button id="add-exclude-btn" class="action-btn exclude">添加排除文件夹</button>
-                    <!-- 新增保存按钮 -->
-                    <button id="save-rules-btn" class="action-btn save">保存规则</button>
+            <div class="sidebar-content">
+                <h2>设置</h2>
+                <div class="section">
+                    <h3>规则列表 (按顺序执行)</h3>
+                    <ul id="command-list"></ul>
+                    <div class="button-group">
+                        <button id="add-include-btn" class="action-btn include">添加包含文件夹</button>
+                        <button id="add-exclude-btn" class="action-btn exclude">添加排除文件夹</button>
+                        <!-- 新增保存按钮 -->
+                        <button id="save-rules-btn" class="action-btn save">保存规则</button>
+                    </div>
+                    <!-- 新增状态消息区域 -->
+                    <p id="config-status"></p>
                 </div>
-                <!-- 新增状态消息区域 -->
-                <p id="config-status"></p>
-            </div>
-            
-            <div class="section">
-                <h3>过滤模式</h3>
-                <div class="radio-group">
-                    <label><input type="radio" name="filter" value="all" checked> 混合</label>
-                    <label><input type="radio" name="filter" value="images"> 仅图片</label>
-                    <label><input type="radio" name="filter" value="videos"> 仅视频</label>
+                
+                <div class="section">
+                    <h3>过滤模式</h3>
+                    <div class="radio-group">
+                        <label><input type="radio" name="filter" value="all" checked> 混合</label>
+                        <label><input type="radio" name="filter" value="images"> 仅图片</label>
+                        <label><input type="radio" name="filter" value="videos"> 仅视频</label>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <button id="next-btn" class="main-action">下一张 / 下一个</button>
+                    <p id="file-count">最终文件数: 0</p>
                 </div>
             </div>
 
-            <div class="section">
-                <button id="next-btn" class="main-action">下一张 / 下一个</button>
-                <p id="file-count">最终文件数: 0</p>
+            <div class="sidebar-toggle-wrapper">
+                <button id="sidebar-toggle-btn" title="收起/展开侧边栏 (T)">‹</button>
             </div>
         </aside>
+
+
 
         <main class="viewer">
             <div id="display-area">

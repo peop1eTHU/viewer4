@@ -18,6 +18,8 @@ const filePathEl = document.getElementById('file-path');
 const filterRadios = document.querySelectorAll('input[name="filter"]');
 const saveRulesBtn = document.getElementById('save-rules-btn');
 const configStatus = document.getElementById('config-status');
+const container = document.querySelector('.container');
+const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
 
 // --- 函数 ---
 
@@ -194,6 +196,35 @@ saveRulesBtn.addEventListener('click', async () => {
         configStatus.textContent = '';
     }, 3000);
 });
+
+function toggleSidebar() {
+    container.classList.toggle('sidebar-hidden');
+    container.classList.toggle('sidebar-visible');
+}
+
+// **新增**: 侧边栏切换按钮的点击事件
+sidebarToggleBtn.addEventListener('click', toggleSidebar);
+
+// **新增**: 全局键盘事件监听
+window.addEventListener('keydown', (event) => {
+    // 防止在输入框或其他交互元素中触发
+    if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+        return;
+    }
+
+    switch (event.code) {
+        case 'Space':
+            // 阻止空格键的默认行为（例如滚动页面或触发按钮点击）
+            event.preventDefault(); 
+            showRandomFile();
+            break;
+        
+        case 'KeyT':
+            toggleSidebar();
+            break;
+    }
+});
+
 
 
 // --- 启动应用 ---

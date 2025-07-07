@@ -249,3 +249,86 @@ button:hover {
     height: 15px; /* 固定高度防止布局跳动 */
     text-align: center;
 }
+
+.container {
+    display: flex;
+    height: 100%;
+    /* 新增过渡效果 */
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar {
+    width: 280px;
+    background-color: #21252b;
+    padding: 20px;
+    padding-right: 0; /* 切换按钮将占据右边空间 */
+    display: flex; /* 改为 flex 布局 */
+    border-right: 1px solid #181a1f;
+    flex-shrink: 0; /* 防止侧边栏被压缩 */
+    /* 新增过渡效果 */
+    transition: all 0.3s ease-in-out;
+    position: relative; /* 为切换按钮定位 */
+}
+
+.sidebar-content {
+    width: 100%;
+    overflow: hidden; /* 收起时隐藏内容 */
+    display: flex;
+    flex-direction: column;
+}
+
+.viewer {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /* 新增过渡效果 */
+    transition: all 0.3s ease-in-out;
+}
+
+/* --- 侧边栏收起时的状态 --- */
+.container.sidebar-hidden .sidebar {
+    width: 0;
+    padding: 0;
+    /* 通过 transform 实现平滑移动而不是瞬间消失 */
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+/* --- 切换按钮的样式 --- */
+.sidebar-toggle-wrapper {
+    position: absolute;
+    right: -20px; /* 让按钮一半在侧边栏外，一半在内 */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+#sidebar-toggle-btn {
+    background-color: #61afef;
+    color: #21252b;
+    border: 2px solid #282c34; /* 与主背景色相同的边框 */
+    width: 30px;
+    height: 60px;
+    border-radius: 0 15px 15px 0; /* 半圆形 */
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    padding-left: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+#sidebar-toggle-btn:hover {
+    background-color: #528bce;
+}
+
+/* 当侧边栏收起时，旋转切换按钮的箭头 */
+.container.sidebar-hidden #sidebar-toggle-btn {
+    transform: translateY(-50%) rotate(180deg);
+    right: -30px; /* 调整位置使其完全可见 */
+}
