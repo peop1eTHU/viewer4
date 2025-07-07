@@ -16,6 +16,8 @@ const videoViewer = document.getElementById('video-viewer');
 const infoText = document.getElementById('info-text');
 const filePathEl = document.getElementById('file-path');
 const filterRadios = document.querySelectorAll('input[name="filter"]');
+const saveRulesBtn = document.getElementById('save-rules-btn');
+const configStatus = document.getElementById('config-status');
 
 // --- 函数 ---
 
@@ -159,3 +161,41 @@ filterRadios.forEach(radio => {
         updateFilterCount(); // 切换模式时更新计数
     });
 });
+
+async function initializeApp() {
+    // 1. 自动加载上次保存的配置
+    const loadedCommands = await window.electronAPI.loadConfig();
+    if (loadedCommands && loadedCommands.length > 0) {
+        commandList = loadedCommands;
+        updateCommandListUI();
+        configStatus.textContent = '已加载上次的规则。';
+        setTimeout(() => configStatus.textContent = '', 3000);
+    }
+
+    // 2. 根据加载的配置（或空配置）刷新文件列表
+    await rescanAndRefresh();
+}
+
+// --- 新增: 保存按钮的事件监听器 ---
+saveRulesBtn.addEventListener('click', async () => {
+    configStatus.textContent = '正在保存...';
+    const result = await window.electronAPI.saveConfig(commandList);
+    
+    if (result.success) {
+        configStatus.style.color = '#98c379'; // 成功-绿色
+        configStatus.textContent = '规则已成功保存！';
+    } else {
+        configStatus.style.color = '#e06c75'; // 失败-红色
+        configStatus.textContent = `保存失败: ${result.error}`;
+    }
+
+    // 3秒后清除状态消息
+    setTimeout(() => {
+        configStatus.textContent = '';
+    }, 3000);
+});
+
+
+// --- 启动应用 ---
+// 在脚本末尾调用初始化函数
+initializeApp();

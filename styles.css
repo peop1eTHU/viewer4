@@ -223,3 +223,29 @@ button:hover {
 .remove-btn:hover {
     background: #5a6268;
 }
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap; /* 允许按钮换行 */
+    gap: 10px;
+    margin-top: 10px;
+}
+
+
+/* --- 新增样式 --- */
+.action-btn.save {
+    background-color: #61afef; /* 蓝色 */
+    width: 100%; /* 让它占据一整行 */
+    margin-top: 5px;
+}
+.action-btn.save:hover {
+    background-color: #528bce;
+}
+
+#config-status {
+    font-size: 12px;
+    margin-top: 10px;
+    color: #98c379; /* 默认用成功颜色 */
+    height: 15px; /* 固定高度防止布局跳动 */
+    text-align: center;
+}
