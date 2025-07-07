@@ -4,6 +4,7 @@ const VIDEO_EXTS = window.electronAPI.getVideoExtensions();
 let commandList = []; // 从文件夹列表变为指令列表
 let allFiles = [];
 let currentFilter = 'all';
+let currentFilePath = null; // 新增: 存储当前显示文件的路径
 
 // --- DOM 元素 ---
 const addIncludeBtn = document.getElementById('add-include-btn');
@@ -20,6 +21,7 @@ const saveRulesBtn = document.getElementById('save-rules-btn');
 const configStatus = document.getElementById('config-status');
 const container = document.querySelector('.container');
 const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+const nextLocalBtn = document.getElementById('next-local-btn');
 
 // --- 函数 ---
 
@@ -91,21 +93,33 @@ function getFilteredFiles() {
     return allFiles; // 'all' 模式
 }
 
-// 显示一个随机文件
-function showRandomFile() {
-    const filteredFiles = getFilteredFiles();
+// showRandomFile 函数需要修改，以保存当前文件路径并更新按钮状态
+function showRandomFile(fileList = null, sourceDescription = '全局') {
+    // 如果没有提供文件列表，则使用全局过滤后的列表
+    const filesToShowFrom = fileList || getFilteredFiles();
 
-    if (filteredFiles.length === 0) {
+    if (filesToShowFrom.length === 0) {
         infoText.style.display = 'block';
         imageViewer.style.display = 'none';
         videoViewer.style.display = 'none';
-        infoText.textContent = '当前模式下没有可显示的文件。';
+        infoText.textContent = `在 "${sourceDescription}" 范围内没有可显示的文件。`;
         filePathEl.textContent = '';
+        currentFilePath = null; // 清空当前文件路径
+        nextLocalBtn.disabled = true; // 禁用局部随机按钮
         return;
     }
 
-    const randomIndex = Math.floor(Math.random() * filteredFiles.length);
-    const randomFile = filteredFiles[randomIndex];
+    // 从提供的列表中随机选择一个文件
+    // 为了防止连续显示同一个文件，可以加一个简单的判断
+    let randomIndex;
+    let randomFile;
+    do {
+        randomIndex = Math.floor(Math.random() * filesToShowFrom.length);
+        randomFile = filesToShowFrom[randomIndex];
+    } while (filesToShowFrom.length > 1 && randomFile === currentFilePath);
+    
+    currentFilePath = randomFile; // *** 核心: 保存当前文件路径 ***
+    nextLocalBtn.disabled = false; // 启用局部随机按钮
 
     infoText.style.display = 'none';
     const extension = '.' + randomFile.split('.').pop().toLowerCase();
@@ -125,6 +139,22 @@ function showRandomFile() {
 
     filePathEl.textContent = randomFile;
 }
+
+// --- 新增: 处理局部随机的函数 ---
+async function showRandomFileLocal() {
+    if (!currentFilePath) {
+        // 如果还没有显示任何文件，则此功能不可用
+        // 可以在这里给用户一个提示，或者直接忽略
+        console.warn('No current file to determine the local folder.');
+        return;
+    }
+
+    const localFiles = await window.electronAPI.scanFolderOfFile(currentFilePath);
+
+    // 使用 showRandomFile 函数来显示，传入局部文件列表
+    showRandomFile(localFiles, '当前文件夹');
+}
+
 
 // 通用的添加指令函数
 async function addCommand(type) {
@@ -155,7 +185,11 @@ commandListEl.addEventListener('click', async (event) => {
     }
 });
 
-nextBtn.addEventListener('click', showRandomFile);
+// 全局随机按钮
+nextBtn.addEventListener('click', () => showRandomFile()); // 确保不带参数调用，使用全局列表
+
+// 局部随机按钮
+nextLocalBtn.addEventListener('click', showRandomFileLocal);
 
 filterRadios.forEach(radio => {
     radio.addEventListener('change', (event) => {
@@ -174,6 +208,7 @@ async function initializeApp() {
         setTimeout(() => configStatus.textContent = '', 3000);
     }
 
+    nextLocalBtn.disabled = true; // 初始时禁用
     // 2. 根据加载的配置（或空配置）刷新文件列表
     await rescanAndRefresh();
 }
@@ -205,20 +240,25 @@ function toggleSidebar() {
 // **新增**: 侧边栏切换按钮的点击事件
 sidebarToggleBtn.addEventListener('click', toggleSidebar);
 
-// **新增**: 全局键盘事件监听
+// 键盘事件监听器需要更新
 window.addEventListener('keydown', (event) => {
-    // 防止在输入框或其他交互元素中触发
     if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
         return;
     }
 
     switch (event.code) {
         case 'Space':
-            // 阻止空格键的默认行为（例如滚动页面或触发按钮点击）
             event.preventDefault(); 
-            showRandomFile();
+            showRandomFile(); // 全局随机
             break;
         
+        case 'Tab':
+            event.preventDefault(); // 阻止 Tab 的默认行为 (切换焦点)
+            if (!nextLocalBtn.disabled) {
+                showRandomFileLocal(); // 局部随机
+            }
+            break;
+
         case 'KeyT':
             toggleSidebar();
             break;

@@ -12,4 +12,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // --- 新增API ---
   saveConfig: (commands) => ipcRenderer.invoke('save-config', commands),
   loadConfig: () => ipcRenderer.invoke('load-config'),
+  scanSingleFolder: (folderPath) => ipcRenderer.invoke('scan-single-folder', folderPath),
+  scanFolderOfFile: (filePath) => ipcRenderer.invoke('scan-folder-of-file', filePath),
 });

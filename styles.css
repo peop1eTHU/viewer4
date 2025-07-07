@@ -332,3 +332,37 @@ button:hover {
     transform: translateY(-50%) rotate(180deg);
     right: -30px; /* 调整位置使其完全可见 */
 }
+
+.main-action-group {
+    display: flex;
+    gap: 10px; /* 按钮间距 */
+}
+
+.main-action {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #98c379;
+    /* 移除之前设置的 width: 100% */
+    flex-grow: 1; /* 让按钮平分空间 */
+}
+
+.main-action:hover {
+    background-color: #89b16c;
+}
+
+/* 新按钮的特定样式 */
+.main-action.local {
+    background-color: #c678dd; /* 紫色，用于区分 */
+}
+
+.main-action.local:hover {
+    background-color: #b36ac4;
+}
+
+/* 当局部随机不可用时，禁用按钮 */
+.main-action.local:disabled {
+    background-color: #5c6370;
+    cursor: not-allowed;
+    opacity: 0.6;
+}

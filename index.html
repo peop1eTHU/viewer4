@@ -34,7 +34,12 @@
                 </div>
 
                 <div class="section">
-                    <button id="next-btn" class="main-action">下一张 / 下一个</button>
+                    <!-- 将两个主要按钮放在一个容器里，方便布局 -->
+                    <div class="main-action-group">
+                        <button id="next-btn" class="main-action" title="全局随机 (空格)">下一张</button>
+                        <!-- 新增局部随机按钮 -->
+                        <button id="next-local-btn" class="main-action local" title="在当前文件夹内随机 (Tab)">下一张 (局部)</button>
+                    </div>
                     <p id="file-count">最终文件数: 0</p>
                 </div>
             </div>

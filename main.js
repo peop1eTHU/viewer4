@@ -106,3 +106,34 @@ ipcMain.handle('load-config', () => {
     return []; // 如果文件损坏或读取失败，返回空列表
   }
 });
+
+ipcMain.handle('scan-single-folder', (event, folderPath) => {
+    try {
+        if (fs.existsSync(folderPath) && fs.lstatSync(folderPath).isDirectory()) {
+            return walkDir(folderPath); // 直接调用 walkDir 工具函数
+        }
+        return []; // 如果路径不存在或不是文件夹，返回空数组
+    } catch (error) {
+        console.error(`Error scanning single folder ${folderPath}:`, error);
+        return [];
+    }
+});
+
+ipcMain.handle('scan-folder-of-file', (event, filePath) => {
+    if (!filePath) {
+        return [];
+    }
+    try {
+        // *** 核心修正 ***
+        // 使用 Node.js 的 path 模块在主进程中安全地获取父目录
+        const parentFolder = path.dirname(filePath);
+
+        if (fs.existsSync(parentFolder) && fs.lstatSync(parentFolder).isDirectory()) {
+            return walkDir(parentFolder);
+        }
+        return [];
+    } catch (error) {
+        console.error(`Error scanning folder for file ${filePath}:`, error);
+        return [];
+    }
+});
