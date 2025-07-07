@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+    <title>随机媒体查看器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>设置</h2>
+            <div class="section">
+                <h3>源文件夹</h3>
+                <ul id="folder-list"></ul>
+                <button id="add-folder-btn">添加文件夹</button>
+            </div>
+            
+            <div class="section">
+                <h3>过滤模式</h3>
+                <div class="radio-group">
+                    <label><input type="radio" name="filter" value="all" checked> 混合</label>
+                    <label><input type="radio" name="filter" value="images"> 仅图片</label>
+                    <label><input type="radio" name="filter" value="videos"> 仅视频</label>
+                </div>
+            </div>
+
+            <div class="section">
+                <button id="next-btn" class="main-action">下一张 / 下一个</button>
+                <p id="file-count">文件总数: 0</p>
+            </div>
+        </aside>
+
+        <main class="viewer">
+            <div id="display-area">
+                <p id="info-text">请先添加文件夹，然后点击“下一张”</p>
+                <img id="image-viewer" class="media-element" style="display:none;" />
+                <video id="video-viewer" class="media-element" style="display:none;" controls></video>
+                <p id="file-path"></p>
+            </div>
+        </main>
+    </div>
+
+    <script src="./renderer.js"></script>
+</body>
+</html>
